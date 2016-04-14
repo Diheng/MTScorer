@@ -26,25 +26,27 @@ intoOne <- function(name, path) {
       # if the merged dataset doesn't exist, create it
       if (!exists("intoOne_dataset")){
         intoOne_dataset <- read.csv(file, header=TRUE)
+        print(intoOne_dataset)
       }
       # if the merged dataset does exist, append to it
-      if (exists("dataset")){
+      else{
         temp_dataset <-read.csv(file, header=TRUE)
-        intoOne_dataset<-rbind(intoOne_dataset, temp_dataset)
+        try(intoOne_dataset<-rbind(intoOne_dataset, temp_dataset))
+        print(intoOne_dataset)
         rm(temp_dataset)
       }
-      dataFile <- paste(path,'/',N,'_Master_',Sys.time(),'.csv', sep="")
-      write.csv(intoOne_dataset,file = dataFile, col.names = F, row.names = F)
-      answer <- intoOne_dataset
-      rm(intoOne_dataset)
-      return(answer)
     }
+    dataFile <- paste(path,'/',N,'_Master_',Sys.time(),'.csv', sep="")
+    write.csv(intoOne_dataset,file = dataFile, col.names = F, row.names = F)
+    answer <- intoOne_dataset
+    rm(intoOne_dataset)
+    return(answer)
   }
   if (name == 'All') {
     library(jsonlite)
-    benchMarkFile <- paste(path,,'/benchMark.json',sep="")
+    benchMarkFile <- paste(path,'/benchMark.json',sep="")
     quest_list <- names(fromJSON(benchMarkFile))
-    sapply(quest_list,clip,var2 = path)
+    sapply(quest_list,clip, path = path)
     return("All are done!")
   }
   else {
