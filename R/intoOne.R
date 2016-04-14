@@ -18,6 +18,7 @@
 
 intoOne <- function(name, path) {
   library(gdata)
+  dir.create(paste(path,'/master/',sep = ""), showWarnings = FALSE)
   clip <- function(N,path) {
     setwd(path)
     file_list <- list.files()
@@ -36,7 +37,7 @@ intoOne <- function(name, path) {
         rm(temp_dataset)
       }
     }
-    dataFile <- paste(path,'/',N,'_Master_',Sys.time(),'.csv', sep="")
+    dataFile <- paste(path,'/master/',N,'_Master_',Sys.time(),'.csv', sep="")
     write.csv(intoOne_dataset,file = dataFile, col.names = F, row.names = F)
     answer <- intoOne_dataset
     rm(intoOne_dataset)
